@@ -1,5 +1,4 @@
-{
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "createChildDomain": {
@@ -12,7 +11,7 @@
     "createSecondDc": {
       "type": "bool",
       "metadata": {
-        "description": "Do you want a second DC in each domain? If false: parameters for DC2 and DC4 are ignored. "
+        "description": "Do you want a second DC in root domain?"
       },
       "defaultValue": false
     },
@@ -21,7 +20,7 @@
       "metadata": {
         "description": "Full FQDN name for the forest root domain."
       },
-      "defaultValue": "contoso.com",
+      "defaultValue": "rmad.local",
       "minLength": 4
     },
     "ChildDomainName": {
@@ -29,7 +28,7 @@
       "metadata": {
         "description": "SHORT name for the child domain. New AD trees are not allowed."
       },
-      "defaultValue": "child",
+      "defaultValue": "second",
       "minLength": 2,
       "maxLength": 15
     },
@@ -121,7 +120,7 @@
       "metadata": {
         "description": "The computer name of the first DC of the root domain."
       },
-      "defaultValue": "rootdc1",
+      "defaultValue": "dc1",
       "minLength": 2,
       "maxLength": 15
     },
@@ -137,7 +136,7 @@
       "metadata": {
         "description": "The computer name of the second DC of the root domain."
       },
-      "defaultValue": "rootdc2",
+      "defaultValue": "dc2",
       "minLength": 2,
       "maxLength": 15
     },
@@ -153,7 +152,7 @@
       "metadata": {
         "description": "The computer name of the first DC of the CHILD domain."
       },
-      "defaultValue": "childdc3",
+      "defaultValue": "childdc1",
       "minLength": 2,
       "maxLength": 15
     },
@@ -167,9 +166,9 @@
     "ChildDC4Name": {
       "type": "string",
       "metadata": {
-        "description": "The computer name of the second DC of the CHILD domain."
+        "description": "The computer name of the workstation."
       },
-      "defaultValue": "childdc4",
+      "defaultValue": "wkstn1",
       "minLength": 2,
       "maxLength": 15
     },
@@ -287,7 +286,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "3389",
-              "sourceAddressPrefix": "*",
+              "sourceAddressPrefix": "207.231.233.170",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 200,
@@ -604,10 +603,9 @@
       }
     },
     {
-      "name": "CreateADVM4",
+      "name": "CreateWorkstation",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-06-01",
-      "condition": "[and(parameters('createSecondDc'), parameters('createChildDomain'))]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments','CreateVNET')]",
         "[resourceId('Microsoft.Compute/availabilitySets', variables('adAvailabilitySetNameChild'))]"
@@ -657,49 +655,6 @@
           },
           "_artifactsLocationSasToken": {
             "value": "[parameters('_artifactsLocationSasToken')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "ConfiguringChildDC4",
-      "type": "Microsoft.Resources/deployments",
-      "condition": "[and(parameters('createSecondDc'), parameters('createChildDomain'))]",
-      "apiVersion": "2020-06-01",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/CreateADVM4",
-        "Microsoft.Resources/deployments/CreateChildDomain"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('configureADNextDCTemplateUri')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "adNextDCVMName": {
-            "value": "[parameters('ChildDC4Name')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "domainName": {
-            "value": "[concat(parameters('childDomainName'), '.', parameters('domainName'))]"
-          },
-          "DNSServer": {
-            "value": "[parameters('ChildDC3IPAddress')]"
-          },
-          "adNextDCConfigurationFunction": {
-            "value": "[variables('nextDCConfigurationFunction')]"
-          },
-          "adNextDCConfigurationModulesURL": {
-            "value": "[variables('nextDCConfigurationModulesURL')]"
           }
         }
       }
