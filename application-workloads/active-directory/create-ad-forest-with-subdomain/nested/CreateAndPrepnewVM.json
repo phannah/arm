@@ -109,8 +109,8 @@
     "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ./',variables('scriptName'),' -SkipNetworkProfileCheck $true')]",
 
     "KACEConfigurationFunction": "ConfigureKACE.ps1\\ConfigureKACE",
-    "KACEModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/ConfigureKACE.ps1.zip', parameters('_artifactsLocationSasToken')))]"
-    
+    "KACEModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/ConfigureKACE.ps1.zip', parameters('_artifactsLocationSasToken')))]",
+    "KACEStep": "[concat(parameters('vmName'),'/ConfigureKACE')]"
   },
   "resources": [
     {
@@ -215,7 +215,8 @@
           "name": "[concat(parameters('vmName'),'/vmDownloadScriptDSCModules')]",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
+            "[variables('KACEStep')]"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
