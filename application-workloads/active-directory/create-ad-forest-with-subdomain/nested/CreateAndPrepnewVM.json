@@ -108,7 +108,7 @@
     
     "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ./',variables('scriptName'),' -SkipNetworkProfileCheck $true')]",
 
-    "KACEConfigurationFunction": "ConfigureKACE.ps1\\ConfigureKACE"
+    "KACEConfigurationFunction": "ConfigureKACE.ps1\\ConfigureKACE",
     "KACEModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/ConfigureKACE.ps1.zip', parameters('_artifactsLocationSasToken')))]"
     
   },
