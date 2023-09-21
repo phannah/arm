@@ -1,0 +1,150 @@
+
+2 years ago
+
+MOVE: 301-create-ad-forest-with-subdomain to application-workloads\ac…
+      }
+    },
+    {
+      "name": "CreateADVM4",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-06-01",
+      "condition": "[and(parameters('createSecondDc'), parameters('createChildDomain'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments','CreateVNET')]",
+        "[resourceId('Microsoft.Compute/availabilitySets', variables('adAvailabilitySetNameChild'))]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nextVMTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "subnetName": {
+            "value": "[parameters('adSubnetName')]"
+          },
+          "adAvailabilitySetName": {
+            "value": "[variables('adAvailabilitySetNameChild')]"
+          },
+          "vmName": {
+            "value": "[parameters('ChildDC4Name')]"
+          },
+          "vmIpAddress": {
+            "value": "[parameters('ChildDC4IPAddress')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "vmSize": {
+            "value": "[parameters('VMSize')]"
+          },
+          "diskType": {
+            "value": "[parameters('diskType')]"
+          },
+          "imageSKU": {
+            "value": "[parameters('imageSKU')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          },
+          "_artifactsLocationSasToken": {
+            "value": "[parameters('_artifactsLocationSasToken')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "ConfiguringChildDC4",
+      "type": "Microsoft.Resources/deployments",
+      "condition": "[and(parameters('createSecondDc'), parameters('createChildDomain'))]",
+      "apiVersion": "2020-06-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/CreateADVM4",
+        "Microsoft.Resources/deployments/CreateChildDomain"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('configureADNextDCTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "adNextDCVMName": {
+            "value": "[parameters('ChildDC4Name')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "domainName": {
+            "value": "[concat(parameters('childDomainName'), '.', parameters('domainName'))]"
+          },
+          "DNSServer": {
+            "value": "[parameters('ChildDC3IPAddress')]"
+          },
+          "adNextDCConfigurationFunction": {
+            "value": "[variables('nextDCConfigurationFunction')]"
+          },
+          "adNextDCConfigurationModulesURL": {
+            "value": "[variables('nextDCConfigurationModulesURL')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "UpdateVNet",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-06-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/CreateChildDomain"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('vnetwithDNSTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "virtualNetworkAddressRange": {
+            "value": "[parameters('virtualNetworkAddressRange')]"
+          },
+          "subnetName": {
+            "value": "[parameters('adSubnetName')]"
+          },
+          "subnetRange": {
+            "value": "[parameters('adSubnet')]"
+          },
+          "NSGName": {
+            "value":  "[variables('adNSGName')]"
+          },
+          "DNSServerAddress": {
+            "value": [
+              "[parameters('RootDC1IPAddress')]",
+              "[parameters('RootDC2IPAddress')]"
+            ]
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    }
+  ]
+}
