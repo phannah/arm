@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+	"machineName": {
+      "type": "string"
+    },
+    "AgentAzureDownloadPath": {
+      "type": "string"
+    },	
+	"_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of resources such as templates and DSC modules that the script depends on. No need to change unless you copy or fork this template."
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "SAS storage token to access _artifactsLocation. No need to change unless you copy or fork this template."
+      },
+      "defaultValue": ""
+    }  
+  },
+  "variables": {
+    "KACEModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/ConfigureKACE.ps1.zip',parameters('_artifactsLocationSasToken')))]",
+    "KACEConfigurationFunction": "ConfigureKACE.ps1\\ConfigureKACE"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('machineName'),'/ConfigureKACE')]",
+      "apiVersion": "2019-12-01",
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.21",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "modulesURL": "[parameters('KACEModulesURL')]",
+          "configurationFunction": "[parameters('KACEConfigurationFunction')]",
+          "properties": {
+            "AgentAzureDownloadPath": "[parameters('AgentAzureDownloadPath')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
