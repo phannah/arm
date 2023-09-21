@@ -102,8 +102,7 @@
     "vmDataDiskSize": 10,
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
-    "downloadDSCName": "[concat(parameters('vmName'),'vmDownloadScriptDSCModules')]",
-
+    
     "scriptName": "Configure-DSC.ps1",
     "scriptDownLoad": "[uri(parameters('_artifactsLocation'), concat(variables('scriptName'), parameters('_artifactsLocationSasToken')))]",
     
