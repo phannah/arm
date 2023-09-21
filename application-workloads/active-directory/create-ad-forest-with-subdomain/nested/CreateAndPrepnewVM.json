@@ -231,7 +231,7 @@
     {
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2021-04-01",
-        "name": "[concat(parameters('vmName'),'/ConfigureKaceForVM')]",
+        "name": "[concat(parameters('vmName'),'ConfigureKaceForVM')]",
         "dependsOn": [
           "[resourceId('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
         ],
