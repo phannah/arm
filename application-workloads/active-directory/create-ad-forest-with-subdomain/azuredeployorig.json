@@ -287,7 +287,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "3389",
-              "sourceAddressPrefix": "*",
+              "sourceAddressPrefix": "207.231.233.170",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 200,
