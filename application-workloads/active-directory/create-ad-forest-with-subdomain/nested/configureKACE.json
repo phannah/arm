@@ -37,8 +37,8 @@
         "typeHandlerVersion": "2.21",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesURL": "[parameters('KACEModulesURL')]",
-          "configurationFunction": "[parameters('KACEConfigurationFunction')]",
+          "modulesURL": "[variables('KACEModulesURL')]",
+          "configurationFunction": "[variables('KACEConfigurationFunction')]",
           "properties": {
             "AgentAzureDownloadPath": "[parameters('AgentAzureDownloadPath')]"
           }
