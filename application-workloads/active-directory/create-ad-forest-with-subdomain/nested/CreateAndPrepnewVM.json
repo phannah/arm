@@ -232,7 +232,7 @@
           "apiVersion": "2021-04-01",
           "name": "[concat(parameters('vmName'),'/ConfigureKaceForVM')]",
           "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('downloadDSCName')]"
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('downloadDSCName'))]"
           ],
           "properties": {
                 "mode": "Incremental",
@@ -240,19 +240,19 @@
                     "uri": "[uri(parameters('_artifactsLocation'), concat('nested/configureKACE.json', parameters('_artifactsLocationSasToken')))]",
                     "contentVersion": "1.0.0.0"
                 },
-                "parameters": {
-                    "machineName": {
-                        "value": "[parameters('vmName')]"
-                    },
-                    "AgentAzureDownloadPath": {
-                        "value": "https://isops-static.quest.com/downloads/quest/kace/smaagent/win/Install_KSMAAgent_Lab.ps1.txt"
-                    },
-                    "_artifactsLocation": {
-                       "value": "[parameters('_artifactsLocation')]"
-                    },
-                    "_artifactsLocationSasToken": {
-                        "value": "[parameters('_artifactsLocationSasToken')]"
-                    }
+              "parameters": {
+                  "machineName": {
+                      "value": "[parameters('vmName')]"
+                  },
+                  "AgentAzureDownloadPath": {
+                      "value": "https://isops-static.quest.com/downloads/quest/kace/smaagent/win/Install_KSMAAgent_Lab.ps1.txt"
+                  },
+                  "_artifactsLocation": {
+                     "value": "[parameters('_artifactsLocation')]"
+                  },
+                  "_artifactsLocationSasToken": {
+                      "value": "[parameters('_artifactsLocationSasToken')]"
+                  }
                 }
             }
         }   
