@@ -109,6 +109,12 @@
       "minLength": 2,
       "maxLength": 16
     },
+    "nsgRPCIP": {
+      "type": "string",
+      "metadata": {
+        "description": "IP of single accessing RPC client."
+      },
+      "defaultValue": "207.231.233.170"    },  
     "adSubnet": {
       "type": "string",
       "metadata": {
@@ -287,7 +293,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "3389",
-              "sourceAddressPrefix": "207.231.233.170",
+              "sourceAddressPrefix": "[parameters('nsgRPCIP')]",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 200,
