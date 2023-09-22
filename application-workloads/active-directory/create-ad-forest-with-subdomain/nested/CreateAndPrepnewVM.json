@@ -208,7 +208,7 @@
           ]
         }
       },
-      "resources": [
+      "resources": {
         "ConfigKACE":
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
@@ -254,7 +254,7 @@
             }
           }
         }
-      ]
+      }
     }    
   ],
   "outputs": { }
