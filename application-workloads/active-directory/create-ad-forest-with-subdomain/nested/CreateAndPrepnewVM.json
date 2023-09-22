@@ -211,7 +211,7 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "KACEStep/install",
+          "name": "KACEStepinstall",
           "apiVersion": "2019-12-01",
           "location": "[parameters('location')]",
           "dependsOn": [
@@ -238,7 +238,7 @@
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-            "Microsoft.Compute/virtualMachines/extensions/KACEStep/install"
+            "Microsoft.Compute/virtualMachines/extensions/KACEStepinstall"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
