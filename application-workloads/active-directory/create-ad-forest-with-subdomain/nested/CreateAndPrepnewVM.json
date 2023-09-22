@@ -237,6 +237,7 @@
           "name": "[concat(parameters('vmName'),'/vmDownloadScriptDSCModules')]",
           "location": "[parameters('location')]",
           "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
             "[format('Microsoft.Compute/virtualMachines/extensions/{0}/ConfigureKACE', parameters('vmName'))]"
           ],
           "properties": {
