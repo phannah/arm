@@ -210,35 +210,12 @@
       },
       "resources": [
         {
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('vmName'),'/KACEStep')]",
-          "apiVersion": "2019-12-01",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.Powershell",
-            "type": "DSC",
-            "typeHandlerVersion": "2.21",
-            "autoUpgradeMinorVersion": true, 
-            "settings": {
-              "modulesURL": "[variables('KACEModulesURL')]",
-              "configurationFunction": "[variables('KACEConfigurationFunction')]",
-              "properties": {
-                "AgentAzureDownloadPath": "https://isops-static.quest.com/downloads/quest/kace/smaagent/win/Install_KSMAAgent_Lab.ps1.txt"
-              }
-            }
-          }
-        },
-        {
           "apiVersion": "2019-12-01",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(parameters('vmName'),'/vmDownloadScriptDSCModules')]",
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-            "[format('Microsoft.Compute/virtualMachines/extensions/{0}/KACEStep', parameters('vmName'))]"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
