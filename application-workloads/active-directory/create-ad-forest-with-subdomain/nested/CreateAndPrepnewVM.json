@@ -208,8 +208,7 @@
           ]
         }
       },
-      "resources": {
-        "ConfigKACE":
+      "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(parameters('vmName'),'/ConfigureKACE')]",
@@ -232,14 +231,13 @@
             }
           }
         },
-        "vmDownloadScriptDSCModules":
         {
           "apiVersion": "2019-12-01",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(parameters('vmName'),'/vmDownloadScriptDSCModules')]",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "ConfigKACE"
+            "[concat(parameters('vmName'),'/ConfigureKACE')]"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
@@ -254,7 +252,7 @@
             }
           }
         }
-      }
+      ]
     }    
   ],
   "outputs": { }
