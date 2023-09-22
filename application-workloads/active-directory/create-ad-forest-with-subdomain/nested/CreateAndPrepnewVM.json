@@ -110,7 +110,7 @@
 
     "KACEConfigurationFunction": "ConfigureKACE.ps1\\ConfigureKACE",
     "KACEModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/ConfigureKACE.ps1.zip', parameters('_artifactsLocationSasToken')))]",
-    "KACEStep": "[concat(parameters('vmName'),'/ConfigureKACE')]"
+    "KACEStep": "[concat('ConfigureKACE/', parameters('vmName'))]"
   },
   "resources": [
     {
@@ -211,7 +211,7 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat('ConfigureKACE/',parameters('vmName'))]",
+          "name": "variables('KACEStep')",
           "apiVersion": "2019-12-01",
           "location": "[parameters('location')]",
           "dependsOn": [
