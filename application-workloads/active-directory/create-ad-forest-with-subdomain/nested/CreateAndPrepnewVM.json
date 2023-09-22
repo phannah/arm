@@ -211,7 +211,7 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "variables('KACEStep')",
+          "name": "[variables('KACEStep')]",
           "apiVersion": "2019-12-01",
           "location": "[parameters('location')]",
           "dependsOn": [
