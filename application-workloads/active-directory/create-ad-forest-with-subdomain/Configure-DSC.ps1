@@ -49,6 +49,27 @@ wmic pagefile list /format:list
 
 Write-Verbose "Settings will be effective after the next reboot."
 
+Write-Verbose -Message ("Installing KACE agent")
+Write-Verbose -Message ("Installing KACE agent")
+$toolsFolder = "c:\OdradTools"
+
+if (!(Test-Path $toolsFolder -PathType Container)) {
+	New-Item -ItemType Directory -Force -Path $toolsFolder
+}
+
+$fileName = $toolsFolder + "\KACEInstall.ps1"
+$updatedFileName = $toolsFolder + "\UpdatedKACEInstall.ps1"
+   
+Invoke-WebRequest -Uri "https://isops-static.quest.com/downloads/quest/kace/smaagent/win/Install_KSMAAgent_Lab.ps1.txt" -OutFile $fileName
+
+Get-content $fileName | % {$_ -replace "Clear-Host",""} | Out-File $updatedFileName
+& $updatedFileName     
+
+
+New-Item C:\questowner.txt
+Set-Content C:\questowner.txt 'peter.hannah@quest.com'
+     
+
 #
 # required to satisfy the Travis CI QA check at Quicktemplates
 #
