@@ -238,7 +238,7 @@
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-            "[concat('Microsoft.Compute/virtualMachines/extensions/',parameters('vmName'),'/KACEStep')]"
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('vmName'),'/KACEStep'))]"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
