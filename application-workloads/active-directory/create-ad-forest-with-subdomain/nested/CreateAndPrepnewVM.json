@@ -239,7 +239,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('vmName'), variables('vmDownloadScriptDSCModules'))]"
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'vmDownloadScriptDSCModules')]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
