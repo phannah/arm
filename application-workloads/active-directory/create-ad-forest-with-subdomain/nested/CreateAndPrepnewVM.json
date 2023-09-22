@@ -234,7 +234,7 @@
         {
           "apiVersion": "2019-12-01",
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('vmName'),'vmDownloadScriptDSCModules')]",
+          "name": "[concat(parameters('vmName'),'/vmDownloadScriptDSCModules')]",
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
