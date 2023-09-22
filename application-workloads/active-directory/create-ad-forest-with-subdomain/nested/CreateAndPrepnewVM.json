@@ -238,7 +238,7 @@
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-            "[format('Microsoft.Compute/virtualMachines/extensions/ConfigureKACE/', parameters('vmName'))]"
+            "[format('Microsoft.Compute/virtualMachines/extensions/ConfigureKACE/{0}', parameters('vmName'))]"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
