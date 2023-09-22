@@ -216,7 +216,7 @@
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-            "[variables('KACEStep')]"
+            "ConfigureKACE"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
@@ -233,7 +233,7 @@
         },
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('vmName'),'/ConfigureKACE')]",
+          "name": "ConfigureKACE",
           "apiVersion": "2019-12-01",
           "location": "[parameters('location')]",
           "dependsOn": [
