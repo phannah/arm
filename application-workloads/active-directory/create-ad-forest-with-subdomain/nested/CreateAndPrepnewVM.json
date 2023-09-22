@@ -212,6 +212,7 @@
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "ConfigureKACE",
+          "name": "[concat('ConfigureKACE/', parameters('vmName')]",
           "apiVersion": "2019-12-01",
           "location": "[parameters('location')]",
           "dependsOn": [
@@ -238,7 +239,7 @@
           "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
-            "Microsoft.Compute/virtualMachines/extensions/ConfigureKACE"
+            "[format('Microsoft.Compute/virtualMachines/extensions/ConfigureKACE/', parameters('vmName'))]"
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
